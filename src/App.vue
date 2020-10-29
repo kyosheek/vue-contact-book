@@ -7,7 +7,7 @@
     <div id="leftNav">
       <button @click="this.$router.go(-1)">Back</button><div id="flexBreak"></div>
       <button @click="this.$router.go(1)">Forward</button><div id="flexBreak"></div>
-      <button @click="this.$router.push('/')">Book</button><div id="flexBreak"></div>
+      <button @click="this.$router.push('/book')">Book</button><div id="flexBreak"></div>
     </div>
     <router-view/>
   </div>
