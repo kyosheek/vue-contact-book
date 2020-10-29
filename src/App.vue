@@ -3,7 +3,14 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view/>
+  <div id="myApp">
+    <div id="leftNav">
+      <button @click="this.$router.go(-1)">Back</button><div id="flexBreak"></div>
+      <button @click="this.$router.go(1)">Forward</button><div id="flexBreak"></div>
+      <button @click="this.$router.push('/')">Book</button><div id="flexBreak"></div>
+    </div>
+    <router-view/>
+  </div>
 </template>
 
 <style>
@@ -27,4 +34,15 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+#myApp {
+  display: flex;
+  flex-direction: row;
+}
+
+#leftNav {
+  flex: 1 1 20vw;
+  text-align: left;
+}
+
 </style>
