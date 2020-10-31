@@ -26,10 +26,6 @@ export default {
       required: true,
       type: Object,
     },
-    index: {
-      required: true,
-      type: Number,
-    },
   },
   computed: {
     name() {
@@ -47,13 +43,9 @@ export default {
   },
   methods: {
     handleDivClick() {
-      const obj = {
-        id: this.index,
-        ...this.contactInfo,
-      };
       this.$router.push({
         name: 'Contact',
-        params: { ...obj },
+        params: { ...this.contactInfo },
       });
     },
     handleButtonClick() {
