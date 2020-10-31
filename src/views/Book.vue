@@ -23,7 +23,7 @@ import ContactCard from '@/components/book/ContactCard.vue';
 import AddContactDialog from '@/components/book/AddContactDialog.vue';
 import DeleteContactDialog from '@/components/book/DeleteContactDialog.vue';
 
-import dummy from '../data';
+import dummy from '@/data';
 
 export default {
   name: 'Book',
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      contacts: [],
+      contacts: null,
       adding: false,
       deleting: false,
       toDelete: null,
@@ -71,7 +71,7 @@ export default {
     },
   },
   created() {
-    this.contacts = { ...dummy };
+    this.contacts = dummy;
   },
 };
 </script>

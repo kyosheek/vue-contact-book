@@ -18,6 +18,7 @@ export default {
   },
   props: {
   },
+  emits: ['add', 'cancel'],
   data() {
     return {
       firstName: '',
@@ -28,6 +29,7 @@ export default {
   },
   methods: {
     addContact() {
+      if (this.firstName.length === 0) return;
       const obj = {
         firstName: this.firstName,
         lastName: this.lastName,

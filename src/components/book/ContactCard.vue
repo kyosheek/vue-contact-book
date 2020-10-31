@@ -20,6 +20,7 @@ export default {
       mouseOverButton: false,
     };
   },
+  emits: ['delete'],
   props: {
     data: {
       required: true,
@@ -27,7 +28,7 @@ export default {
     },
     index: {
       required: true,
-      type: String,
+      type: Number,
     },
   },
   computed: {
@@ -46,7 +47,14 @@ export default {
   },
   methods: {
     handleDivClick() {
-      this.$router.push(`/contact/${this.index}`);
+      const obj = {
+        id: this.index,
+        ...this.contactInfo,
+      };
+      this.$router.push({
+        name: 'Contact',
+        params: { ...obj },
+      });
     },
     handleButtonClick() {
       this.$emit('delete');

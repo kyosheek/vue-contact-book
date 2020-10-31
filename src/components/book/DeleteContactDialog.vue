@@ -15,6 +15,7 @@ export default {
   },
   props: {
   },
+  emits: ['delete', 'cancel'],
   data() {
     return {
     };

@@ -9,7 +9,7 @@
       <button @click="this.$router.go(1)">Forward</button><div id="flexBreak"></div>
       <button @click="this.$router.push('/book')">Book</button><div id="flexBreak"></div>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
