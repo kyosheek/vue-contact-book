@@ -11,13 +11,25 @@
         disabled
         :value="printFieldName(key)" />
       <input
-        :disabled="!editing"
+        :disabled="toEdit !== key"
         :value="val"
         :name="key"
         @input="editFields($event.target)" />
-      <button
-        v-if="!reservedFields.includes(key)"
-        @click="initRemove(key)">Delete</button>
+      <div v-if="toEdit !== key">
+        <button
+          @click="initEdit(key, val)">
+          Edit</button>
+        <button
+          v-if="!reservedFields.includes(key)"
+          @click="initRemove(key)">Delete</button>
+      </div>
+      <div v-else>
+        <button
+          :disabled="!canSave"
+          @click="stopEdit">Save</button>
+        <button
+          @click="initCancelEdit">Cancel</button>
+      </div>
       <br />
     </template>
     <input v-model="newKey" />
@@ -25,11 +37,6 @@
     <button @click="addNewField">Add field</button><br />
   </div>
   <div class="contact-info-right-aside">
-    <button
-      @click="initEdit">Edit</button>
-    <button
-      @click="this.cancelEdit = true;">Cancel Edit</button>
-    <button>Save Edit</button>
   </div>
 </template>
 
@@ -56,11 +63,27 @@ export default {
       removing: false,
       toRemove: null,
       editing: false,
-      toEdit: {},
+      toEdit: null,
+      beforeEdit: {
+        name: '',
+        value: '',
+      },
+      canSave: false,
       cancelEdit: false,
       newKey: 'New Field',
       newValue: '',
     };
+  },
+  watch: {
+    info: {
+      handler(val) {
+        const { name, value } = this.beforeEdit;
+        if (name.length > 0) {
+          this.canSave = val[name] !== value;
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     printFieldName(name) {
@@ -77,18 +100,50 @@ export default {
       if (Object.prototype.hasOwnProperty.call(this.info, key)) return;
       if (val.length === 0) return;
       this.info[key] = val;
+      localStorage.setItem(this.id, JSON.stringify(this.info));
     },
-    initEdit() {
+    initEdit(key, val) {
       this.editing = true;
-      console.log(this.editing);
+      this.beforeEdit.name = key;
+      this.beforeEdit.value = val;
+      this.toEdit = key;
     },
     editFields(e) {
       const { name, value } = e;
-      this.toEdit[name] = value;
+      this.info[name] = value;
+      localStorage.setItem(this.id, JSON.stringify(this.info));
+    },
+    stopEdit() {
+      this.canSave = false;
+      this.beforeEdit.name = '';
+      this.beforeEdit.value = '';
+      this.toEdit = null;
+    },
+    applyEdits() {
+      const keys = Object.keys(this.toEdit);
+      for (let i = 0; i < keys.length; i += 1) {
+        this.info[keys[i]] = this.toEdit[keys[i]];
+      }
+      localStorage.setItem(this.id, JSON.stringify(this.info));
+      this.editing = false;
+      this.toEdit = {};
+    },
+    initCancelEdit() {
+      if (this.canSave) {
+        this.cancelEdit = true;
+      } else {
+        this.editing = false;
+        this.cancelEdit = false;
+      }
     },
     revertChanges() {
       this.editing = false;
-      this.toEdit = {};
+      this.toEdit = null;
+      const { name, value } = this.beforeEdit;
+      this.info[name] = value;
+      localStorage.setItem(this.id, JSON.stringify(this.info));
+      this.beforeEdit.name = '';
+      this.beforeEdit.value = '';
       this.cancelEdit = false;
     },
     continueChanges() {
@@ -102,6 +157,7 @@ export default {
       if (!this.reservedFields.includes(this.toRemove)) {
         delete this.info[this.toRemove];
       }
+      localStorage.setItem(this.id, JSON.stringify(this.info));
       this.removing = false;
       this.toRemove = null;
     },
