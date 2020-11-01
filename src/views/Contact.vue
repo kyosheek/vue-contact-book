@@ -16,24 +16,28 @@
           @input="editFields($event.target)" />
         <div v-if="toEdit !== key">
           <button
+            class="mdc-icon-buttons material-icons md-24 icon-blue"
             @click="initEdit(key, val)">
-            <i class="icon-edit material-icons md-24 icon-blue">edit</i>
+            edit
           </button>
           <button
+            class="mdc-icon-buttons material-icons md-24 icon-red"
             v-if="!reservedFields.includes(key)"
             @click="initRemove(key)">
-            <i class="icon-delete material-icons md-24 icon-red">delete</i>
+            delete
           </button>
         </div>
         <div v-else>
           <button
+            class="mdc-icon-buttons material-icons md-24 icon-green"
             :disabled="!canSave"
             @click="stopEdit">
-            <i class="icon-save material-icons md-24 icon-green">save</i>
+            save
           </button>
           <button
+            class="mdc-icon-buttons material-icons md-24 icon-red"
             @click="initCancelEdit">
-            <i class="icon-edit material-icons md-24 icon-red">cancel</i>
+            cancel
           </button>
         </div>
       </div>
@@ -43,8 +47,9 @@
       <input v-model="newValue" />
       <div class="contact-info-content__row__button-wrap">
         <button
+          class="mdc-icon-buttons material-icons md-24 icon-green"
           @click="addNewField">
-          <i class="icon-add material-icons md-24 icon-green">add</i>
+          add
         </button>
       </div>
     </div>

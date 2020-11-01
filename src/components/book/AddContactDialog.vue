@@ -15,10 +15,16 @@
           <label>Company name: </label><input v-model="company" />
         </div>
       </div>
-      <button class="button-add" @click="addContact">
-        <i class="icon-check material-icons md-18 icon-green">add</i></button>
-      <button class="button-clear" @click="addCancel">
-        <i class="icon-clear material-icons md-18 icon-red">clear</i></button>
+      <button
+        class="button-add mdc-icon-buttons material-icons md-18 icon-green"
+        @click="addContact">
+        add
+      </button>
+      <button
+        class="button-clear mdc-icon-buttons material-icons md-18 icon-red"
+        @click="addCancel">
+        clear
+      </button>
     </div>
   </div>
 </template>

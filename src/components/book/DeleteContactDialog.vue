@@ -2,10 +2,16 @@
   <div class="delete-contact-dialog">
     <div class="delete-contact-dialog__content">
       <p>Are you sure you want to delete this contact entry?</p>
-      <button class="button-check" @click="deleteContact">
-        <i class="icon-check material-icons md-18 icon-green">check</i></button>
-      <button class="button-clear" @click="deleteCancel">
-        <i class="icon-clear material-icons md-18 icon-red">clear</i></button>
+      <button
+        class="button-check mdc-icon-buttons material-icons md-18 icon-green"
+        @click="deleteContact">
+        check
+      </button>
+      <button
+        class="button-clear mdc-icon-buttons material-icons md-18 icon-red"
+        @click="deleteCancel">
+        clear
+      </button>
     </div>
   </div>
 </template>

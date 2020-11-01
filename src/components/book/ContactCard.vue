@@ -11,11 +11,11 @@
     <transition name="slide-fade">
       <button
         v-if="mouseOverDiv"
-        class="button contact-card__button"
+        class="button contact-card__button mdc-icon-buttons material-icons md-36 icon-red"
         @click="mouseOverButton && handleButtonClick()"
         @mouseover="mouseOverButton = true"
         @mouseleave="mouseOverButton = false">
-        <i class="icon-delete material-icons md-36 icon-red">delete</i>
+        delete
       </button>
     </transition>
   </div>

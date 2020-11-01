@@ -3,14 +3,14 @@
     <div class="cancel-edit-dialog__content">
       <p>Are you sure you want to revert changes?</p>
       <button
-        class="button-check"
+        class="button-check mdc-icon-buttons material-icons md-18 icon-green"
         @click="revertChanges">
-        <i class="icon-check material-icons md-18 icon-green">check</i>
+        check
       </button>
       <button
-        class="button-clear"
+        class="button-clear mdc-icon-buttons material-icons md-18 icon-red"
         @click="continueChanges">
-        <i class="icon-clear material-icons md-18 icon-red">clear</i>
+        clear
       </button>
     </div>
   </div>

@@ -1,9 +1,9 @@
 <template>
   <div class="app-left-aside">
     <button
-      class="button-book"
+      class="button-book mdc-icon-button material-icons md-36 icon-blue"
       @click="this.$router.push('/book')">
-      <i class="icon-book material-icons md-36 icon-blue">menu_book</i>
+      menu_book
     </button>
   </div>
   <router-view />

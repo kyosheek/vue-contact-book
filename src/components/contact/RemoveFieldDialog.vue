@@ -3,14 +3,14 @@
     <div class="remove-field-dialog__content">
       <p>{{ `Are you sure you want to remove this field?` }}</p>
       <button
-        class="button-check"
+        class="button-check mdc-icon-buttons material-icons md-18 icon-green"
         @click="removeField">
-        <i class="icon-check material-icons md-18 icon-green">check</i>
+        check
       </button>
       <button
-        class="button-clear"
+        class="button-clear mdc-icon-buttons material-icons md-18 icon-red"
         @click="cancelRemove">
-        <i class="icon-clear material-icons md-18 icon-red">clear</i>
+        clear
       </button>
     </div>
   </div>

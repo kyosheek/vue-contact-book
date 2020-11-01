@@ -21,9 +21,10 @@
   </template>
   <div class="book-right-aside">
     <button
-      class="button-person-add"
+      class="button-person-add mdc-icon-buttons material-icons md-36 icon-green"
       @click="this.adding = true">
-      <i class="icon-person-add material-icons md-36 icon-green">person_add</i></button>
+      person_add
+    </button>
   </div>
 </template>
 
