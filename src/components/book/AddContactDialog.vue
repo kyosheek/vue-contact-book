@@ -3,7 +3,7 @@
     <div class="add-contact-dialog__content">
       <div class="add-contact-dialog__content__fields">
         <div class="add-contact-dialog__content__fields__field">
-          <label>First name: </label><input v-model="firstName" />
+          <label>First name *: </label><input v-model="firstName" />
         </div>
         <div class="add-contact-dialog__content__fields__field">
           <label>Last name: </label><input v-model="lastName" />
@@ -17,6 +17,7 @@
       </div>
       <button
         class="button-add mdc-icon-buttons material-icons md-18 icon-green"
+        :disabled="firstName.length === 0"
         @click="addContact">
         add
       </button>
