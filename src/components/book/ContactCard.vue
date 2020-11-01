@@ -1,13 +1,23 @@
 <template>
-  <div class="contact-card" @click="!mouseOverButton && handleDivClick()">
-    <h3 class="contact-card__name">{{ name }}</h3>
-    <p class="contact-card__work">{{ work }}</p>
-    <button
-      @click="mouseOverButton && handleButtonClick()"
-      @mouseover="mouseOverButton = true"
-      @mouseleave="mouseOverButton = false">
-      Delete
-    </button>
+  <div
+    class="contact-card"
+    @click="!mouseOverButton && handleDivClick()"
+    @mouseover="mouseOverDiv = true"
+    @mouseleave="mouseOverDiv = false">
+    <div class="contact-card__info">
+      <h3 class="contact-card__info__name">{{ name }}</h3>
+      <p class="contact-card__info__work">{{ work }}</p>
+    </div>
+    <transition name="slide-fade">
+      <button
+        v-if="mouseOverDiv"
+        class="button contact-card__button"
+        @click="mouseOverButton && handleButtonClick()"
+        @mouseover="mouseOverButton = true"
+        @mouseleave="mouseOverButton = false">
+        <i class="icon-delete material-icons md-36 icon-red">delete</i>
+      </button>
+    </transition>
   </div>
 </template>
 
@@ -16,6 +26,7 @@ export default {
   name: 'ContactCard',
   data() {
     return {
+      mouseOverDiv: false,
       mouseOverButton: false,
     };
   },
@@ -55,22 +66,70 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+h3, p {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .contact-card, .contact-card > * {
   cursor: pointer;
+}
+
+.contact-card {
+  position: relative;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.15);
+  border-radius: 5px;
+
+  margin: 20px;
+  height: 80px;
+}
+
+.contact-card__info {
+  position: relative;
+  left: 0;
+  display: inline-block;
+  text-align: left;
+  float: left;
+  margin-left: 20px;
+  width: calc(100% - 40px);
+}
+
+h3 {
+  margin-top: 0.5em;
+}
+
+p {
+  margin-top: 1em;
+}
+
+.contact-card__button {
+  margin-top: 0;
+  position: absolute;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  opacity: 1;
+  border-radius: 0 5px 5px 0;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0);
+  text-align: center;
+}
+
+.slide-fade-enter-active {
+  transition: all 1s ease;
+}
+.slide-fade-leave-active {
+  transition: all 1s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+}
+.slide-fade-enter-to, .slide-fade-leave {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 </style>

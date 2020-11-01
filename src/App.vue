@@ -1,11 +1,19 @@
 <template>
   <div class="app-left-aside">
-    <button @click="this.$router.push('/book')">Book</button><div id="flexBreak"></div>
+    <button
+      class="button-book"
+      @click="this.$router.push('/book')">
+      <i class="icon-book material-icons md-36 icon-blue">menu_book</i>
+    </button>
   </div>
   <router-view />
 </template>
 
 <style>
+body {
+  margin: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,26 +22,28 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
 #app {
   display: flex;
   flex-direction: row;
 }
 
+.button-book {
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  position: fixed;
+
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
+
 .app-left-aside {
-  flex: 0 1 20vw;
-  text-align: left;
+  flex: 1 1 20vw;
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

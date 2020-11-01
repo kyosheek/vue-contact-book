@@ -1,10 +1,14 @@
 <template>
-  <AddContactDialog v-if="adding"
-    @add="addContact"
-    @cancel="addCancel" />
-  <DeleteContactDialog v-if="deleting"
-    @delete="deleteContact"
-    @cancel="deleteCancel" />
+  <transition name="dialog-fade">
+    <AddContactDialog v-if="adding"
+      @add="addContact"
+      @cancel="addCancel" />
+  </transition>
+  <transition name="dialog-fade">
+    <DeleteContactDialog v-if="deleting"
+      @delete="deleteContact"
+      @cancel="deleteCancel" />
+  </transition>
   <div v-if="!isEmpty" class="book-content">
     <template v-for="(obj) in contacts" :key="obj.id">
       <ContactCard
@@ -17,7 +21,9 @@
   </template>
   <div class="book-right-aside">
     <button
-      @click="this.adding = true">New contact</button>
+      class="button-person-add"
+      @click="this.adding = true">
+      <i class="icon-person-add material-icons md-36 icon-green">person_add</i></button>
   </div>
 </template>
 
@@ -25,6 +31,12 @@
 import ContactCard from '@/components/book/ContactCard.vue';
 import AddContactDialog from '@/components/book/AddContactDialog.vue';
 import DeleteContactDialog from '@/components/book/DeleteContactDialog.vue';
+
+const sortContacts = (a, b) => {
+  if (a.firstName > b.firstName) return 1;
+  if (b.firstName > a.firstName) return -1;
+  return 0;
+};
 
 export default {
   name: 'Book',
@@ -50,7 +62,10 @@ export default {
         id: key,
         ...obj,
       };
-      this.contacts.push(o);
+      const copy = [...this.contacts];
+      copy.push(o);
+      copy.sort((a, b) => sortContacts(a, b));
+      this.contacts = copy;
       this.adding = false;
     },
     addCancel() {
@@ -84,11 +99,7 @@ export default {
         arr.push(o);
       }
     }
-    arr.sort((a, b) => {
-      if (a.firstName > b.firstName) return 1;
-      if (b.firstName > a.firstName) return -1;
-      return 0;
-    });
+    arr.sort((a, b) => sortContacts(a, b));
     this.contacts = arr;
     if (arr.length > 0) this.isEmpty = false;
   },
@@ -102,5 +113,33 @@ export default {
 
 .book-right-aside {
   flex: 1 1 20vw;
+  display: flex;
+}
+
+.button-person-add {
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  position: fixed;
+
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
+
+.dialog-fade-enter-active {
+  transition: all 0.5s ease;
+}
+.dialog-fade-leave-active {
+  transition: all 0.5s ease;
+}
+.dialog-fade-enter, .dialog-fade-leave-to {
+  opacity: 0;
+}
+.dialog-fade-enter-to, .dialog-fade-leave {
+  opacity: 1;
 }
 </style>

@@ -7,34 +7,47 @@
     @cancel="cancelRemove" />
   <div class="contact-info-content">
     <template v-for="(val, key) in info" :key="key">
-      <input
-        disabled
-        :value="printFieldName(key)" />
-      <input
-        :disabled="toEdit !== key"
-        :value="val"
-        :name="key"
-        @input="editFields($event.target)" />
-      <div v-if="toEdit !== key">
-        <button
-          @click="initEdit(key, val)">
-          Edit</button>
-        <button
-          v-if="!reservedFields.includes(key)"
-          @click="initRemove(key)">Delete</button>
+      <div class="contact-info-content__row">
+        <label>{{ `${printFieldName(key)}: ` }}</label>
+        <input
+          :disabled="toEdit !== key"
+          :value="val"
+          :name="key"
+          @input="editFields($event.target)" />
+        <div v-if="toEdit !== key">
+          <button
+            @click="initEdit(key, val)">
+            <i class="icon-edit material-icons md-24 icon-blue">edit</i>
+          </button>
+          <button
+            v-if="!reservedFields.includes(key)"
+            @click="initRemove(key)">
+            <i class="icon-delete material-icons md-24 icon-red">delete</i>
+          </button>
+        </div>
+        <div v-else>
+          <button
+            :disabled="!canSave"
+            @click="stopEdit">
+            <i class="icon-save material-icons md-24 icon-green">save</i>
+          </button>
+          <button
+            @click="initCancelEdit">
+            <i class="icon-edit material-icons md-24 icon-red">cancel</i>
+          </button>
+        </div>
       </div>
-      <div v-else>
-        <button
-          :disabled="!canSave"
-          @click="stopEdit">Save</button>
-        <button
-          @click="initCancelEdit">Cancel</button>
-      </div>
-      <br />
     </template>
-    <input v-model="newKey" />
-    <input v-model="newValue" />
-    <button @click="addNewField">Add field</button><br />
+    <div class="contact-info-content__row new-field-row">
+      <input v-model="newKey" />
+      <input v-model="newValue" />
+      <div class="contact-info-content__row__button-wrap">
+        <button
+          @click="addNewField">
+          <i class="icon-add material-icons md-24 icon-green">add</i>
+        </button>
+      </div>
+    </div>
   </div>
   <div class="contact-info-right-aside">
   </div>
@@ -169,9 +182,74 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+button {
+  margin-top: 0px;
+}
+
 .contact-info-content {
+  margin-top: 20px;
   flex: 0 1 60vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-info-content__row {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  align-items: center;
+}
+
+.contact-info-content__row > label {
+  flex: 1;
+  text-align: left;
+}
+
+.contact-info-content__row > input {
+  flex: 2;
+  padding: 6px;
+  font-size:
+}
+
+.contact-info-content__row > div {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.contact-info-content__row > div > button {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.contact-info-content__row > div > button:first-of-type {
+  margin-right: 10px;
+}
+
+.new-field-row > input {
+  flex: 4;
+}
+
+.new-field-row > div {
+  flex: 1;
+}
+
+input {
+  font-size: 16px;
+  outline: none;
+}
+
+input:disabled {
+  background-color: white;
+  border: none;
+}
+
+input:enabled {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
 }
 
 .contact-info-right-aside {

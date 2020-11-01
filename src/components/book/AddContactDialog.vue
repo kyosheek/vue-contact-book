@@ -1,12 +1,24 @@
 <template>
   <div class="add-contact-dialog">
-    <div clas="add-contact-dialog__content">
-      <label>First name: <input v-model="firstName" /></label><br />
-      <label>Last name: <input v-model="lastName" /></label><br />
-      <label>Position name: <input v-model="position" /></label><br />
-      <label>Company name: <input v-model="company" /></label><br />
-      <button @click="addContact">Add</button>
-      <button @click="addCancel">Cancel</button>
+    <div class="add-contact-dialog__content">
+      <div class="add-contact-dialog__content__fields">
+        <div class="add-contact-dialog__content__fields__field">
+          <label>First name: </label><input v-model="firstName" />
+        </div>
+        <div class="add-contact-dialog__content__fields__field">
+          <label>Last name: </label><input v-model="lastName" />
+        </div>
+        <div class="add-contact-dialog__content__fields__field">
+          <label>Position name: </label><input v-model="position" />
+        </div>
+        <div class="add-contact-dialog__content__fields__field">
+          <label>Company name: </label><input v-model="company" />
+        </div>
+      </div>
+      <button class="button-add" @click="addContact">
+        <i class="icon-check material-icons md-18 icon-green">add</i></button>
+      <button class="button-clear" @click="addCancel">
+        <i class="icon-clear material-icons md-18 icon-red">clear</i></button>
     </div>
   </div>
 </template>
@@ -43,6 +55,7 @@ export default {
 
 <style>
 .add-contact-dialog {
+  z-index: 99;
   position: absolute;
   top: 0;
   left: 0;
@@ -51,13 +64,60 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 .add-contact-dialog__content {
+  padding-top: 10px;
   flex: 0 1 50vw;
-  border: 2px solid #ff0046;
   border-radius: 5px;
-  background-color: #cccccc;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  padding-bottom: 15px;
+}
+
+.add-contact-dialog__content__fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-contact-dialog__content__fields__field {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+label {
+  flex: 1;
+  text-align: left;
+  margin-right: 10px;
+  margin-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+input {
+  flex: 2;
+  margin-right: 10px;
+}
+
+.button-add {
+  margin-right: 10px;
+}
+
+.button-clear {
+  margin-left: 10px;
+}
+
+button {
+  margin-top: 5px;
+  padding: 3px 5px 3px 5px;
+
+  background-color: rgba(255, 255, 255, 1);
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
 }
 </style>
