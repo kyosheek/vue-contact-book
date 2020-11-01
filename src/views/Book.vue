@@ -9,7 +9,7 @@
     <template v-for="(obj) in contacts" :key="obj.id">
       <ContactCard
         :data="obj"
-        @delete="this.toDelete = obj.id; this.deleting = true;" />
+        @delete="deleteInit(obj.id)" />
     </template>
   </div>
   <template v-else>
@@ -56,6 +56,10 @@ export default {
     addCancel() {
       this.adding = false;
     },
+    deleteInit(id) {
+      this.toDelete = id;
+      this.deleting = true;
+    },
     deleteContact() {
       this.contacts = this.contacts.filter((obj) => obj.id !== this.toDelete);
       localStorage.removeItem(this.toDelete);
@@ -86,7 +90,7 @@ export default {
       return 0;
     });
     this.contacts = arr;
-    if (l > 1) this.isEmpty = false;
+    if (arr.length > 0) this.isEmpty = false;
   },
 };
 </script>

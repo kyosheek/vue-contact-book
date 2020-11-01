@@ -119,21 +119,13 @@ export default {
       this.beforeEdit.value = '';
       this.toEdit = null;
     },
-    applyEdits() {
-      const keys = Object.keys(this.toEdit);
-      for (let i = 0; i < keys.length; i += 1) {
-        this.info[keys[i]] = this.toEdit[keys[i]];
-      }
-      localStorage.setItem(this.id, JSON.stringify(this.info));
-      this.editing = false;
-      this.toEdit = {};
-    },
     initCancelEdit() {
       if (this.canSave) {
         this.cancelEdit = true;
       } else {
         this.editing = false;
         this.cancelEdit = false;
+        this.stopEdit();
       }
     },
     revertChanges() {

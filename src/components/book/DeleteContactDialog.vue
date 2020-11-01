@@ -11,15 +11,7 @@
 <script>
 export default {
   name: 'DeleteContactDialog',
-  components: {
-  },
-  props: {
-  },
   emits: ['delete', 'cancel'],
-  data() {
-    return {
-    };
-  },
   methods: {
     deleteContact() {
       this.$emit('delete');

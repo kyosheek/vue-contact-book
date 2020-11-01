@@ -16,7 +16,6 @@ export default {
   name: 'ContactCard',
   data() {
     return {
-      contactInfo: this.data,
       mouseOverButton: false,
     };
   },
@@ -29,13 +28,13 @@ export default {
   },
   computed: {
     name() {
-      const { firstName, lastName } = this.contactInfo;
+      const { firstName, lastName } = this.data;
       let res = firstName.length > 0 ? `${firstName} ` : '';
       res += lastName.length > 0 ? lastName : '';
       return res;
     },
     work() {
-      const { position, company } = this.contactInfo;
+      const { position, company } = this.data;
       let res = position.length > 0 ? position : '';
       res += company.length > 0 ? ` at ${company}` : '';
       return res;
@@ -45,7 +44,7 @@ export default {
     handleDivClick() {
       this.$router.push({
         name: 'Contact',
-        params: { ...this.contactInfo },
+        params: { ...this.data },
       });
     },
     handleButtonClick() {

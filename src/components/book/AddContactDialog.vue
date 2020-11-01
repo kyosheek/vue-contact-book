@@ -14,10 +14,6 @@
 <script>
 export default {
   name: 'AddContactDialog',
-  components: {
-  },
-  props: {
-  },
   emits: ['add', 'cancel'],
   data() {
     return {

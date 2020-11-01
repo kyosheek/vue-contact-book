@@ -1,28 +1,25 @@
-import contactProps from '@/utils';
-
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import Book from '@/views/Book.vue';
+import Contact from '@/views/Contact.vue';
+
+const contactProps = (route) => {
+  const o = { ...route.params };
+  return {
+    data: o,
+  };
+};
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
-  },
-  {
-    path: '/book',
+    alias: '/book',
     name: 'Book',
-    component: () => import('../views/Book.vue'),
+    component: Book,
   },
   {
     path: '/contact',
     name: 'Contact',
-    component: () => import('@/views/Contact.vue'),
+    component: Contact,
     props: contactProps,
   },
 ];
