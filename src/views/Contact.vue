@@ -234,7 +234,7 @@ button {
 }
 
 .new-field-row > input {
-  flex: 4;
+  flex: 1.5;
 }
 
 .new-field-row > div {
