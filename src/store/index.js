@@ -6,12 +6,20 @@ export default createStore({
   },
   getters: {
     contacts: (state) => state.contacts,
-    contactById: (state) => (id) => state.contacts.find((contact) => contact.id === id),
+    contactById: (state) => (id) => state.contacts[id],
   },
   mutations: {
     setContactField: (state, payload) => {
       const { id, name, value } = payload;
-      state.contacts[id][name] = value;
+      const copy = Object.assign(state.contacts[id]);
+      copy[name] = value;
+      state.contacts[id] = copy;
+    },
+    removeContactField: (state, payload) => {
+      const { id, name } = payload;
+      const obj = Object.assign(state.contacts[id]);
+      delete obj[name];
+      state.contacts[id] = obj;
     },
     addContact: (state, payload) => {
       const copy = { ...payload };
@@ -38,7 +46,18 @@ export default createStore({
       }
     },
     changeContact: async (context, payload) => {
+      const { id, name, value } = payload;
+      const obj = Object.assign(context.state.contacts[id]);
+      obj[name] = value;
+      localStorage.setItem(id, JSON.stringify(obj));
       context.commit('setContactField', payload);
+    },
+    removeField: async (context, payload) => {
+      const { id, name } = payload;
+      const obj = Object.assign(context.state.contacts[id]);
+      delete obj[name];
+      localStorage.setItem(id, JSON.stringify(obj));
+      context.commit('removeContactField', payload);
     },
     saveContact: async (context, payload) => {
       const copy = { ...payload };

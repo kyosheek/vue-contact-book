@@ -2,13 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Book from '@/views/Book.vue';
 import Contact from '@/views/Contact.vue';
 
-const contactProps = (route) => {
-  const o = { ...route.params };
-  return {
-    data: o,
-  };
-};
-
 const routes = [
   {
     path: '/',
@@ -20,7 +13,7 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: Contact,
-    props: contactProps,
+    props: true,
   },
 ];
 

@@ -69,14 +69,12 @@ export default {
     RemoveFieldDialog,
   },
   props: {
-    data: {
-      type: Object,
+    id: {
+      type: [Number, String],
     },
   },
   data() {
     return {
-      id: null,
-      info: null,
       reservedFields: ['id', 'firstName', 'lastName', 'position', 'company', 'New Field'],
       removing: false,
       toRemove: null,
@@ -91,6 +89,11 @@ export default {
       newKey: 'New Field',
       newValue: '',
     };
+  },
+  computed: {
+    info() {
+      return this.$store.getters.contactById(this.id);
+    },
   },
   watch: {
     info: {
@@ -112,13 +115,15 @@ export default {
       return name;
     },
     addNewField() {
-      const key = this.newKey;
-      const val = this.newValue;
-      if (this.reservedFields.includes(key)) return;
-      if (Object.prototype.hasOwnProperty.call(this.info, key)) return;
-      if (val.length === 0) return;
-      this.info[key] = val;
-      localStorage.setItem(this.id, JSON.stringify(this.info));
+      const o = {
+        id: this.id,
+        name: this.newKey,
+        value: this.newValue,
+      };
+      if (this.reservedFields.includes(o.name)) return;
+      if (Object.prototype.hasOwnProperty.call(this.info, o.name)) return;
+      if (o.value.length === 0) return;
+      this.$store.dispatch('changeContact', o);
     },
     initEdit(key, val) {
       this.editing = true;
@@ -127,9 +132,12 @@ export default {
       this.toEdit = key;
     },
     editFields(e) {
-      const { name, value } = e;
-      this.info[name] = value;
-      localStorage.setItem(this.id, JSON.stringify(this.info));
+      const o = {
+        id: this.id,
+        name: e.name,
+        value: e.value,
+      };
+      this.$store.dispatch('changeContact', o);
     },
     stopEdit() {
       this.canSave = false;
@@ -149,9 +157,12 @@ export default {
     revertChanges() {
       this.editing = false;
       this.toEdit = null;
-      const { name, value } = this.beforeEdit;
-      this.info[name] = value;
-      localStorage.setItem(this.id, JSON.stringify(this.info));
+      const o = {
+        id: this.id,
+        name: this.beforeEdit.name,
+        value: this.beforeEdit.value,
+      };
+      this.$store.dispatch('changeContact', o);
       this.beforeEdit.name = '';
       this.beforeEdit.value = '';
       this.cancelEdit = false;
@@ -164,10 +175,13 @@ export default {
       this.removing = true;
     },
     removeField() {
+      const o = {
+        id: this.id,
+        name: this.toRemove,
+      };
       if (!this.reservedFields.includes(this.toRemove)) {
-        delete this.info[this.toRemove];
+        this.$store.dispatch('removeField', o);
       }
-      localStorage.setItem(this.id, JSON.stringify(this.info));
       this.removing = false;
       this.toRemove = null;
     },
@@ -177,12 +191,9 @@ export default {
     },
   },
   beforeCreate() {
-    if (Object.keys(this.data).length === 0) this.$router.push('/book');
+    if (!this.id) this.$router.push('/book');
   },
   created() {
-    this.id = this.data.id;
-    delete this.data.id;
-    this.info = this.data;
   },
 };
 </script>

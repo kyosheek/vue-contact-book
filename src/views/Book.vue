@@ -10,7 +10,7 @@
       @cancel="deleteCancel" />
   </transition>
   <div class="book-content">
-    <template v-if="contacts">
+    <template v-if="contacts.length > 0">
       <template v-for="(obj) in contacts" :key="obj.id">
         <ContactCard
           :data="obj"

@@ -55,7 +55,7 @@ export default {
     handleDivClick() {
       this.$router.push({
         name: 'Contact',
-        params: { ...this.data },
+        params: { id: this.data.id },
       });
     },
     handleButtonClick() {
