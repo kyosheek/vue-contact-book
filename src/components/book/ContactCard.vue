@@ -86,6 +86,10 @@ h3, p {
   height: 80px;
 }
 
+.contact-card:first-of-type {
+  margin-top: 0;
+}
+
 .contact-card__info {
   position: relative;
   left: 0;

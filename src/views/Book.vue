@@ -9,16 +9,18 @@
       @delete="deleteContact"
       @cancel="deleteCancel" />
   </transition>
-  <div v-if="!isEmpty" class="book-content">
-    <template v-for="(obj) in contacts" :key="obj.id">
-      <ContactCard
-        :data="obj"
-        @delete="deleteInit(obj.id)" />
+  <div class="book-content">
+    <template v-if="contacts">
+      <template v-for="(obj) in contacts" :key="obj.id">
+        <ContactCard
+          :data="obj"
+          @delete="deleteInit(obj.id)" />
+      </template>
+    </template>
+    <template v-else>
+      <h1>No contacts yet!</h1>
     </template>
   </div>
-  <template v-else>
-    <h1>No contacts yet!</h1>
-  </template>
   <div class="book-right-aside">
     <button
       class="button-person-add mdc-icon-buttons material-icons md-36 icon-green"
@@ -48,25 +50,35 @@ export default {
   },
   data() {
     return {
-      contacts: null,
       adding: false,
       deleting: false,
       toDelete: null,
       isEmpty: true,
     };
   },
+  computed: {
+    contacts() {
+      const obj = this.$store.getters.contacts;
+      const arr = [];
+      const keys = Object.keys(obj);
+      for (let i = 0; i < keys.length; i += 1) {
+        const o = {
+          id: keys[i],
+          ...obj[keys[i]],
+        };
+        arr.push(o);
+      }
+      return arr.sort((a, b) => sortContacts(a, b));
+    },
+  },
   methods: {
     addContact(obj) {
       const key = new Date().valueOf();
-      localStorage.setItem(key, JSON.stringify(obj));
       const o = {
         id: key,
         ...obj,
       };
-      const copy = [...this.contacts];
-      copy.push(o);
-      copy.sort((a, b) => sortContacts(a, b));
-      this.contacts = copy;
+      this.$store.dispatch('saveContact', o);
       this.adding = false;
     },
     addCancel() {
@@ -77,8 +89,7 @@ export default {
       this.deleting = true;
     },
     deleteContact() {
-      this.contacts = this.contacts.filter((obj) => obj.id !== this.toDelete);
-      localStorage.removeItem(this.toDelete);
+      this.$store.dispatch('deleteContact', this.toDelete);
       this.deleting = false;
       this.toDelete = null;
     },
@@ -88,21 +99,7 @@ export default {
     },
   },
   created() {
-    const l = localStorage.length;
-    const arr = [];
-    for (let i = 0; i < l; i += 1) {
-      const key = localStorage.key(i);
-      if (key !== 'loglevel:webpack-dev-server') {
-        const o = {
-          id: key,
-          ...JSON.parse(localStorage.getItem(key)),
-        };
-        arr.push(o);
-      }
-    }
-    arr.sort((a, b) => sortContacts(a, b));
-    this.contacts = arr;
-    if (arr.length > 0) this.isEmpty = false;
+    this.$store.dispatch('uploadContacts');
   },
 };
 </script>
@@ -110,6 +107,7 @@ export default {
 <style>
 .book-content {
   flex: 1 1 60vw;
+  margin-top: 20px;
 }
 
 .book-right-aside {

@@ -1,11 +1,11 @@
 <template>
-  <div class="app-left-aside">
+  <nav class="app-left-aside">
     <button
       class="button-book mdc-icon-button material-icons md-36 icon-blue"
       @click="this.$router.push('/book')">
       menu_book
     </button>
-  </div>
+  </nav>
   <router-view />
 </template>
 
