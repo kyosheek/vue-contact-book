@@ -232,6 +232,7 @@ button {
 
 .contact-info-content__row {
   margin-left: 20px;
+  margin-right: 20px;
   margin-bottom: 10px;
   display: flex;
   padding-bottom: 8px;
@@ -297,7 +298,6 @@ input:enabled {
   width: 80px;
   height: 80px;
   margin-top: 20px;
-  margin-left: 20px;
 
   position: fixed;
 

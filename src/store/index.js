@@ -15,14 +15,16 @@ export default createStore({
       const { id, name, value } = payload;
       const copy = {};
       Object.assign(copy, state.contacts[id]);
-      const keys = Object.keys(copy);
-      if (!keys.includes(name)) {
-        state.changes.push({
-          action: 'removeContactField',
-          payload: {
-            id, name,
-          },
-        });
+      if (!payload.isHistory) {
+        const keys = Object.keys(copy);
+        if (!keys.includes(name)) {
+          state.changes.push({
+            action: 'removeContactField',
+            payload: {
+              id, name,
+            },
+          });
+        }
       }
       copy[name] = value;
       state.contacts[id] = copy;
@@ -34,12 +36,14 @@ export default createStore({
       const value = obj[name];
       delete obj[name];
       state.contacts[id] = obj;
-      state.changes.push({
-        action: 'setContactField',
-        payload: {
-          id, name, value,
-        },
-      });
+      if (!payload.isHistory) {
+        state.changes.push({
+          action: 'setContactField',
+          payload: {
+            id, name, value,
+          },
+        });
+      }
     },
     addContact: (state, payload) => {
       const copy = { ...payload };
@@ -51,10 +55,12 @@ export default createStore({
       delete state.contacts[payload];
     },
     addChange: (state, payload) => {
-      state.changes.push({
-        action: 'setContactField',
-        payload,
-      });
+      if (!payload.isHistory) {
+        state.changes.push({
+          action: 'setContactField',
+          payload,
+        });
+      }
     },
     initLastChange: (state) => state.changes.pop(),
     clearChanges: (state) => {
@@ -110,7 +116,10 @@ export default createStore({
     },
     callChange: async (context) => {
       const change = context.state.changes.pop();
-      context.commit(change.action, change.payload);
+      context.commit(change.action, {
+        isHistory: true,
+        ...change.payload,
+      });
     },
   },
   modules: {
