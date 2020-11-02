@@ -55,6 +55,12 @@
     </div>
   </div>
   <div class="contact-info-right-aside">
+    <button
+      :disabled="!anyChanges"
+      class=" button-history mdc-icon-buttons material-icons md-36 icon-blue"
+      @click="revertChange">
+      history
+    </button>
   </div>
 </template>
 
@@ -93,6 +99,9 @@ export default {
   computed: {
     info() {
       return this.$store.getters.contactById(this.id);
+    },
+    anyChanges() {
+      return this.$store.getters.anyChanges;
     },
   },
   watch: {
@@ -141,6 +150,11 @@ export default {
     },
     stopEdit() {
       this.canSave = false;
+      this.$store.dispatch('addChange', {
+        id: this.id,
+        name: this.beforeEdit.name,
+        value: this.beforeEdit.value,
+      });
       this.beforeEdit.name = '';
       this.beforeEdit.value = '';
       this.toEdit = null;
@@ -151,7 +165,10 @@ export default {
       } else {
         this.editing = false;
         this.cancelEdit = false;
-        this.stopEdit();
+        this.canSave = false;
+        this.beforeEdit.name = '';
+        this.beforeEdit.value = '';
+        this.toEdit = null;
       }
     },
     revertChanges() {
@@ -188,6 +205,9 @@ export default {
     cancelRemove() {
       this.removing = false;
       this.toRemove = null;
+    },
+    revertChange() {
+      this.$store.dispatch('callChange');
     },
   },
   beforeCreate() {
@@ -269,8 +289,23 @@ input:enabled {
 }
 
 .contact-info-right-aside {
-  flex: 0 1 20vw;
-  display: flex;
-  flex-direction: column;
+  flex: 1 1 20vw;
+  text-align: left;
+}
+
+.button-history {
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  margin-left: 20px;
+
+  position: fixed;
+
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
 }
 </style>
