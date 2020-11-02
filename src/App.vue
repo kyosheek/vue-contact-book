@@ -2,7 +2,7 @@
   <nav class="app-left-aside">
     <button
       class="button-book mdc-icon-button material-icons md-36 icon-blue"
-      @click="this.$store.commit('clearChanges'); this.$router.push('/book')">
+      @click="this.$store.commit('clearHistory'); this.$router.push('/book')">
       menu_book
     </button>
   </nav>

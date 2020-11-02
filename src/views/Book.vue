@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     contacts() {
-      const obj = this.$store.getters.contacts;
+      const obj = this.$store.getters.getContacts;
       const arr = [];
       const keys = Object.keys(obj);
       for (let i = 0; i < keys.length; i += 1) {
@@ -78,7 +78,7 @@ export default {
         id: key,
         ...obj,
       };
-      this.$store.dispatch('saveContact', o);
+      this.$store.dispatch('addContact', o);
       this.adding = false;
     },
     addCancel() {
@@ -99,7 +99,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('uploadContacts');
+    this.$store.dispatch('fetchContacts');
   },
 };
 </script>

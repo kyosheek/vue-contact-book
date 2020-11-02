@@ -98,10 +98,10 @@ export default {
   },
   computed: {
     info() {
-      return this.$store.getters.contactById(this.id);
+      return this.$store.getters.getContactById(this.id);
     },
     anyChanges() {
-      return this.$store.getters.anyChanges;
+      return this.$store.getters.isAnyChanges;
     },
   },
   watch: {
@@ -132,7 +132,7 @@ export default {
       if (this.reservedFields.includes(o.name)) return;
       if (Object.prototype.hasOwnProperty.call(this.info, o.name)) return;
       if (o.value.length === 0) return;
-      this.$store.dispatch('changeContact', o);
+      this.$store.dispatch('updateContact', o);
     },
     initEdit(key, val) {
       this.editing = true;
@@ -146,11 +146,11 @@ export default {
         name: e.name,
         value: e.value,
       };
-      this.$store.dispatch('changeContact', o);
+      this.$store.dispatch('updateContact', o);
     },
     stopEdit() {
       this.canSave = false;
-      this.$store.dispatch('addChange', {
+      this.$store.dispatch('updateHistory', {
         id: this.id,
         name: this.beforeEdit.name,
         value: this.beforeEdit.value,
@@ -179,7 +179,7 @@ export default {
         name: this.beforeEdit.name,
         value: this.beforeEdit.value,
       };
-      this.$store.dispatch('changeContact', o);
+      this.$store.dispatch('updateContact', o);
       this.beforeEdit.name = '';
       this.beforeEdit.value = '';
       this.cancelEdit = false;
@@ -197,7 +197,7 @@ export default {
         name: this.toRemove,
       };
       if (!this.reservedFields.includes(this.toRemove)) {
-        this.$store.dispatch('removeField', o);
+        this.$store.dispatch('removeContactField', o);
       }
       this.removing = false;
       this.toRemove = null;
@@ -207,7 +207,7 @@ export default {
       this.toRemove = null;
     },
     revertChange() {
-      this.$store.dispatch('callChange');
+      this.$store.dispatch('dispatchFromHistory');
     },
   },
   beforeCreate() {

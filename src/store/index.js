@@ -3,23 +3,23 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     contacts: {},
-    changes: [],
+    history: [],
   },
   getters: {
-    contacts: (state) => state.contacts,
-    contactById: (state) => (id) => state.contacts[id],
-    anyChanges: (state) => state.changes.length > 0,
+    getContacts: (state) => state.contacts,
+    getContactById: (state) => (id) => state.contacts[id],
+    isAnyChanges: (state) => state.history.length > 0,
   },
   mutations: {
-    setContactField: (state, payload) => {
+    SET_CONTACT_FIELD: (state, payload) => {
       const { id, name, value } = payload;
       const copy = {};
       Object.assign(copy, state.contacts[id]);
       if (!payload.isHistory) {
         const keys = Object.keys(copy);
         if (!keys.includes(name)) {
-          state.changes.push({
-            action: 'removeContactField',
+          state.history.push({
+            action: 'REMOVE_CONTACT_FIELD',
             payload: {
               id, name,
             },
@@ -29,7 +29,7 @@ export default createStore({
       copy[name] = value;
       state.contacts[id] = copy;
     },
-    removeContactField: (state, payload) => {
+    REMOVE_CONTACT_FIELD: (state, payload) => {
       const { id, name } = payload;
       const obj = {};
       Object.assign(obj, state.contacts[id]);
@@ -37,38 +37,37 @@ export default createStore({
       delete obj[name];
       state.contacts[id] = obj;
       if (!payload.isHistory) {
-        state.changes.push({
-          action: 'setContactField',
+        state.history.push({
+          action: 'SET_CONTACT_FIELD',
           payload: {
             id, name, value,
           },
         });
       }
     },
-    addContact: (state, payload) => {
+    ADD_CONTACT: (state, payload) => {
       const copy = { ...payload };
       const { id } = copy;
       delete copy.id;
       state.contacts[id] = copy;
     },
-    removeContact: (state, payload) => {
+    REMOVE_CONTACT: (state, payload) => {
       delete state.contacts[payload];
     },
-    addChange: (state, payload) => {
+    ADD_ACTION_TO_HISTORY: (state, payload) => {
       if (!payload.isHistory) {
-        state.changes.push({
-          action: 'setContactField',
+        state.history.push({
+          action: 'SET_CONTACT_FIELD',
           payload,
         });
       }
     },
-    initLastChange: (state) => state.changes.pop(),
-    clearChanges: (state) => {
-      state.changes = [];
+    REMOVE_ALL_HISTORY: (state) => {
+      state.history = [];
     },
   },
   actions: {
-    uploadContacts: async (context) => {
+    fetchContacts: async (context) => {
       const l = localStorage.length;
       for (let i = 0; i < l; i += 1) {
         const key = localStorage.key(i);
@@ -77,51 +76,49 @@ export default createStore({
             id: key,
             ...JSON.parse(localStorage.getItem(key)),
           };
-          context.commit('addContact', o);
+          context.commit('ADD_CONTACT', o);
         }
       }
     },
-    changeContact: async (context, payload) => {
+    updateContact: async (context, payload) => {
       const { id, name, value } = payload;
       const obj = {};
       Object.assign(obj, context.state.contacts[id]);
       obj[name] = value;
       localStorage.setItem(id, JSON.stringify(obj));
-      context.commit('setContactField', payload);
+      context.commit('SET_CONTACT_FIELD', payload);
     },
-    removeField: async (context, payload) => {
+    removeContactField: async (context, payload) => {
       const { id, name } = payload;
       const obj = {};
       Object.assign(obj, context.state.contacts[id]);
       delete obj[name];
       localStorage.setItem(id, JSON.stringify(obj));
-      context.commit('removeContactField', payload);
+      context.commit('REMOVE_CONTACT_FIELD', payload);
     },
-    saveContact: async (context, payload) => {
+    addContact: async (context, payload) => {
       const copy = { ...payload };
       const { id } = copy;
       delete copy.id;
       localStorage.setItem(id, JSON.stringify(copy));
-      context.commit('addContact', payload);
+      context.commit('ADD_CONTACT', payload);
     },
     deleteContact: async (context, payload) => {
       localStorage.removeItem(payload);
-      context.commit('removeContact', payload);
+      context.commit('REMOVE_CONTACT', payload);
     },
-    addChange: async (context, payload) => {
-      context.commit('addChange', payload);
+    updateHistory: async (context, payload) => {
+      context.commit('ADD_ACTION_TO_HISTORY', payload);
     },
-    clearChanges: async (context) => {
-      context.commit('clearChanges');
+    clearHistory: async (context) => {
+      context.commit('REMOVE_ALL_HISTORY');
     },
-    callChange: async (context) => {
-      const change = context.state.changes.pop();
+    dispatchFromHistory: async (context) => {
+      const change = context.state.history.pop();
       context.commit(change.action, {
         isHistory: true,
         ...change.payload,
       });
     },
-  },
-  modules: {
   },
 });
