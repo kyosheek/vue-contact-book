@@ -7,14 +7,14 @@
   <transition name="dialog-fade">
     <DeleteContactDialog v-if="deleting"
       @delete="deleteContact"
-      @cancel="deleteCancel" />
+      @cancel="cancelDelete" />
   </transition>
   <div class="book-content">
     <template v-if="contacts.length > 0">
       <template v-for="(obj) in contacts" :key="obj.id">
         <ContactCard
           :data="obj"
-          @delete="deleteInit(obj.id)" />
+          @delete="initDelete(obj.id)" />
       </template>
     </template>
     <template v-else>
@@ -23,7 +23,7 @@
   </div>
   <div class="book-right-aside">
     <button
-      class="button-person-add mdc-icon-buttons material-icons md-36 icon-green"
+      class="button-person-add material-icons md-36 icon-green"
       @click="this.adding = true">
       person_add
     </button>
@@ -84,7 +84,7 @@ export default {
     addCancel() {
       this.adding = false;
     },
-    deleteInit(id) {
+    initDelete(id) {
       this.toDelete = id;
       this.deleting = true;
     },
@@ -93,7 +93,7 @@ export default {
       this.deleting = false;
       this.toDelete = null;
     },
-    deleteCancel() {
+    cancelDelete() {
       this.deleting = false;
       this.toDelete = null;
     },
@@ -129,10 +129,7 @@ export default {
   border-radius: 5px;
 }
 
-.dialog-fade-enter-active {
-  transition: all 0.5s ease;
-}
-.dialog-fade-leave-active {
+.dialog-fade-enter-active, .dialog-fade-leave-active {
   transition: all 0.5s ease;
 }
 .dialog-fade-enter, .dialog-fade-leave-to {

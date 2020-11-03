@@ -1,6 +1,6 @@
 <template>
-  <div class="add-contact-dialog">
-    <div class="add-contact-dialog__content">
+  <div class="dialog">
+    <div class="dialog__content">
       <div class="add-contact-dialog__content__fields">
         <div class="add-contact-dialog__content__fields__field">
           <label>First name *: </label><input v-model="firstName" />
@@ -16,13 +16,13 @@
         </div>
       </div>
       <button
-        class="button-add mdc-icon-buttons material-icons md-18 icon-green"
+        class="dialog__content__button button-add material-icons md-18 icon-green"
         :disabled="firstName.length === 0"
         @click="addContact">
         add
       </button>
       <button
-        class="button-clear mdc-icon-buttons material-icons md-18 icon-red"
+        class="dialog__content__button button-clear material-icons md-18 icon-red"
         @click="addCancel">
         clear
       </button>
@@ -61,31 +61,10 @@ export default {
 </script>
 
 <style>
-.add-contact-dialog {
-  z-index: 99;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-.add-contact-dialog__content {
-  padding-top: 10px;
-  flex: 0 1 50vw;
-  border-radius: 5px;
-  background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  padding-bottom: 15px;
-}
-
 .add-contact-dialog__content__fields {
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 }
 
 .add-contact-dialog__content__fields__field {
@@ -115,16 +94,5 @@ input {
 
 .button-clear {
   margin-left: 10px;
-}
-
-button {
-  margin-top: 5px;
-  padding: 3px 5px 3px 5px;
-
-  background-color: rgba(255, 255, 255, 1);
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-
-  cursor: pointer;
 }
 </style>

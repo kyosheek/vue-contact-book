@@ -11,7 +11,7 @@
     <transition name="slide-fade">
       <button
         v-if="mouseOverDiv"
-        class="button contact-card__button mdc-icon-buttons material-icons md-36 icon-red"
+        class="button contact-card__button material-icons md-36 icon-red"
         @click="mouseOverButton && handleButtonClick()"
         @mouseover="mouseOverButton = true"
         @mouseleave="mouseOverButton = false">

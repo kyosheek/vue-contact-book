@@ -1,8 +1,8 @@
 <template>
   <nav class="app-left-aside">
     <button
-      class="button-book mdc-icon-button material-icons md-36 icon-blue"
-      @click="this.$store.commit('clearHistory'); this.$router.push('/book')">
+      class="button-book material-icons md-36 icon-blue"
+      @click="this.$store.dispatch('clearHistory'); this.$router.push('/book')">
       menu_book
     </button>
   </nav>
@@ -10,19 +10,13 @@
 </template>
 
 <style>
-body {
-  margin: 0;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
 
-#app {
   display: flex;
   flex-direction: row;
 }
