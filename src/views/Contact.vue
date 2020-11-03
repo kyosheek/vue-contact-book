@@ -43,10 +43,12 @@
       </div>
     </template>
     <div class="contact-info-content__row new-field-row">
-      <input v-model="newKey" />
-      <input v-model="newValue" />
+      <input
+        v-model="newField"
+        :placeholder="placeholder" />
       <div class="contact-info-content__row__button-wrap">
         <button
+          :disabled="!canAdd"
           class="material-icons md-24 icon-green"
           @click="addNewField">
           add
@@ -91,8 +93,8 @@ export default {
       },
       canSave: false,
       cancelEdit: false,
-      newKey: 'New Field',
-      newValue: '',
+      newField: '',
+      placeholder: 'New field:New value',
     };
   },
   computed: {
@@ -101,6 +103,10 @@ export default {
     },
     anyChanges() {
       return this.$store.getters.isAnyChanges;
+    },
+    canAdd() {
+      const regex = /^([^:]+:[^:]+)$/;
+      return this.newField.match(regex);
     },
   },
   watch: {
@@ -126,16 +132,18 @@ export default {
       return name;
     },
     addNewField() {
+      const [name, value] = this.newField.split(':');
       const o = {
         id: this.id,
-        name: this.newKey,
-        value: this.newValue,
+        name,
+        value,
       };
       // Check for reserved fields
       if (this.reservedFields.includes(o.name)) return;
       // Check for existing fields
       if (Object.prototype.hasOwnProperty.call(this.info, o.name)) return;
       if (o.value.length === 0) return;
+      this.newField = '';
       this.$store.dispatch('updateContact', o);
     },
     initEdit(key, val) {
@@ -259,7 +267,7 @@ export default {
 }
 
 .new-field-row > input {
-  flex: 1.5;
+  flex: 3;
 }
 
 .new-field-row > div {
