@@ -14,6 +14,10 @@
   text-align: center;
   display: flex;
   flex-direction: row;
+  min-height: calc(100vh - 80px);
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 80px;
 }
 
 .button-book {

@@ -8,7 +8,8 @@
   color: #2c3e50;
 }
 
-body, html {
+body {
+  position: relative;
 }
 
 button {
@@ -78,4 +79,7 @@ footer {
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
