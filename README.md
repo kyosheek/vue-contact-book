@@ -1,4 +1,4 @@
-# vue-contact-book
+# Contact Book
 
 ## About
 
@@ -8,15 +8,17 @@ All data stores in localStorage, so you can use it in [your browser](https://ksh
 
 ## Key Features
 
-- Only First name is required for contacts
+- Only First name is required to add new contact to your 'book'
 
-- Any strings and numbers will suffice (use anything but letters and numbers at your own risk!)
+- Any value for new info field (except for colon, it is a delimiter)
 
-- Custom field names
+- Custom field names and values
 
-- No input check (be careful not to confuse email and phone number)
+- But you can then add colon when editing field's value! (sic)
 
-- `/book` page only shows full name and working place
+- No input check (so you can input friend's phone numbers in favourite format, e.g. +l33tc00k135<3)
+
+- `/book` page only shows general information for each contact
 
 - Totally free (0.00$) to use!
 
