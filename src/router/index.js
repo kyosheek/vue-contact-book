@@ -15,6 +15,10 @@ const routes = [
     component: Contact,
     props: true,
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/book',
+  },
 ];
 
 const router = createRouter({
