@@ -4,7 +4,7 @@
 
 This is a pet project implementing a contact book with editable fields and values.
 
-All data stores in localStorage, so you can use it in your browser.
+All data stores in localStorage, so you can use it in (your browser)[https://ksh-vue-contact-book.herokuapp.com/].
 
 ## Key Features
 
