@@ -5,7 +5,7 @@
     @mouseover="mouseOverDiv = true"
     @mouseleave="mouseOverDiv = false">
     <div class="contact-card__info">
-      <h3 class="contact-card__info__name">{{ name }}</h3>
+      <h3 class="contact-card__info__name">{{ fullName }}</h3>
       <p class="contact-card__info__work">{{ work }}</p>
     </div>
     <transition name="slide-fade">
@@ -38,7 +38,7 @@ export default {
     },
   },
   computed: {
-    name() {
+    fullName() {
       const { firstName, lastName } = this.data;
       let res = firstName.length > 0 ? `${firstName} ` : '';
       res += lastName.length > 0 ? lastName : '';

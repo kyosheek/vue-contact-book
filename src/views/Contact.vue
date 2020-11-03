@@ -13,7 +13,7 @@
           :disabled="toEdit !== key"
           :value="val"
           :name="key"
-          @input="editFields($event.target)" />
+          @input="editField($event.target)" />
         <div v-if="toEdit !== key">
           <button
             class="material-icons md-24 icon-blue"
@@ -105,6 +105,7 @@ export default {
   },
   watch: {
     info: {
+      // Checks if current value in input is viable
       handler(val) {
         const { name, value } = this.beforeEdit;
         if (name === 'firstName' && val[name].length === 0) {
@@ -130,7 +131,9 @@ export default {
         name: this.newKey,
         value: this.newValue,
       };
+      // Check for reserved fields
       if (this.reservedFields.includes(o.name)) return;
+      // Check for existing fields
       if (Object.prototype.hasOwnProperty.call(this.info, o.name)) return;
       if (o.value.length === 0) return;
       this.$store.dispatch('updateContact', o);
@@ -140,7 +143,7 @@ export default {
       this.beforeEdit.value = val;
       this.toEdit = key;
     },
-    editFields(e) {
+    editField(e) {
       const o = {
         id: this.id,
         name: e.name,
@@ -191,7 +194,7 @@ export default {
         id: this.id,
         name: this.toRemove,
       };
-      if (!this.reservedFields.includes(this.toRemove)) {
+      if (!this.reservedFields.includes(o.name)) {
         this.$store.dispatch('removeContactField', o);
       }
       this.removing = false;
@@ -206,9 +209,8 @@ export default {
     },
   },
   beforeCreate() {
+    // Redirect to main page if no parameters passed trough router
     if (!this.id) this.$router.push('/book');
-  },
-  created() {
   },
 };
 </script>

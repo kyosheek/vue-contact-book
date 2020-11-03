@@ -2,7 +2,7 @@
   <transition name="dialog-fade">
     <AddContactDialog v-if="adding"
       @add="addContact"
-      @cancel="addCancel" />
+      @cancel="cancelAdd" />
   </transition>
   <transition name="dialog-fade">
     <DeleteContactDialog v-if="deleting"
@@ -60,6 +60,7 @@ export default {
       const obj = this.$store.getters.getContacts;
       const arr = [];
       const keys = Object.keys(obj);
+      // This loop adds id to objects so they can be deleted later
       for (let i = 0; i < keys.length; i += 1) {
         const o = {
           id: keys[i],
@@ -80,7 +81,7 @@ export default {
       this.$store.dispatch('addContact', o);
       this.adding = false;
     },
-    addCancel() {
+    cancelAdd() {
       this.adding = false;
     },
     initDelete(id) {
