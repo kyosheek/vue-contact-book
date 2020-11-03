@@ -54,14 +54,14 @@
       </div>
     </div>
   </div>
-  <div class="contact-info-right-aside">
+  <aside class="contact-info-right-aside">
     <button
       :disabled="!anyChanges"
       class="button-history material-icons md-36 icon-blue"
       @click="revertChange">
       history
     </button>
-  </div>
+  </aside>
 </template>
 
 <script>
@@ -108,7 +108,9 @@ export default {
     info: {
       handler(val) {
         const { name, value } = this.beforeEdit;
-        if (name.length > 0) {
+        if (name === 'firstName' && val[name].length === 0) {
+          this.canSave = false;
+        } else if (name.length > 0) {
           this.canSave = val[name] !== value;
         }
       },
@@ -163,12 +165,8 @@ export default {
       if (this.canSave) {
         this.cancelEdit = true;
       } else {
-        this.editing = false;
-        this.cancelEdit = false;
+        this.revertChanges();
         this.canSave = false;
-        this.beforeEdit.name = '';
-        this.beforeEdit.value = '';
-        this.toEdit = null;
       }
     },
     revertChanges() {
@@ -218,14 +216,10 @@ export default {
 };
 </script>
 
-<style scoped>
-button {
-  margin-top: 0px;
-}
-
+<style>
 .contact-info-content {
   margin-top: 20px;
-  flex: 0 1 60vw;
+  flex: 1 1 60vw;
   display: flex;
   flex-direction: column;
 }
@@ -273,25 +267,9 @@ button {
   flex: 1;
 }
 
-input {
-  font-size: 16px;
-  outline: none;
-}
-
-input:disabled {
-  background-color: white;
-  border: none;
-}
-
-input:enabled {
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-}
-
 .contact-info-right-aside {
+  display: flex;
   flex: 1 1 20vw;
-  text-align: left;
 }
 
 .button-history {

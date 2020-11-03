@@ -1,11 +1,11 @@
 <template>
-  <nav class="app-left-aside">
+  <aside class="app-left-aside">
     <button
       class="button-book material-icons md-36 icon-blue"
       @click="this.$store.dispatch('clearHistory'); this.$router.push('/book')">
       menu_book
     </button>
-  </nav>
+  </aside>
   <router-view />
 </template>
 

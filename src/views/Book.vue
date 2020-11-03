@@ -21,13 +21,13 @@
       <h1>No contacts yet!</h1>
     </template>
   </div>
-  <div class="book-right-aside">
+  <aside class="book-right-aside">
     <button
       class="button-person-add material-icons md-36 icon-green"
       @click="this.adding = true">
       person_add
     </button>
-  </div>
+  </aside>
 </template>
 
 <script>
