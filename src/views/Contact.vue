@@ -84,7 +84,6 @@ export default {
       reservedFields: ['id', 'firstName', 'lastName', 'position', 'company', 'New Field'],
       removing: false,
       toRemove: null,
-      editing: false,
       toEdit: null,
       beforeEdit: {
         name: '',
@@ -137,7 +136,6 @@ export default {
       this.$store.dispatch('updateContact', o);
     },
     initEdit(key, val) {
-      this.editing = true;
       this.beforeEdit.name = key;
       this.beforeEdit.value = val;
       this.toEdit = key;
@@ -170,7 +168,6 @@ export default {
       }
     },
     revertChanges() {
-      this.editing = false;
       this.toEdit = null;
       const o = {
         id: this.id,

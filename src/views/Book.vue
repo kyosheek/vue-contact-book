@@ -53,7 +53,6 @@ export default {
       adding: false,
       deleting: false,
       toDelete: null,
-      isEmpty: true,
     };
   },
   computed: {
